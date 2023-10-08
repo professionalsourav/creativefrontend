@@ -1,0 +1,25 @@
+.galary{
+
+    width: 50vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+ .gimg{
+
+    width: 300px;
+    margin: 10px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.grid{
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+gap: 1rem;
+padding: 5rem;
+padding-top: 0;
+
+}
