@@ -1,5 +1,8 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import  styled  from 'styled-components'
+import {format} from "timeago.js";
 
 
 const Container = styled.div`
@@ -71,12 +74,18 @@ const UserCard = ({ type, video }) => {
 
 
     useEffect(() => {
-        const fetchChannel = async () => {
-          const res = await axios.get(`https://night-rua3.onrender.com/api/users/find/${video.userId}`);
-          setChannel(res.data);
-        };
-        fetchChannel();
-      }, [video.userId]);
+      const fetchChannel = async () => {
+        const configf = {
+          Headers: {
+            "Content-Type" : "application/json"},
+            withCredentials: true
+         }
+        const res = await axios.get(`/api/users/find/${video.userId}`, configf);
+        setChannel(res.data);
+      };
+      fetchChannel();
+    }, [video.userId]);
+    
   return (
     <Link to={`/uservideo/${video._id}`} style={{textDecoration:"none"}}>
     <Container type={type}>

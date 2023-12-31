@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import UserNavbar from '../../components/user/UserNavbar';
-import Card from '../../components/creator/Card';
 import UserMenu from '../../components/user/UserMenu';
+import UserCard from '../../components/user/UserCard';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
 display: flex;
@@ -28,7 +29,22 @@ const Container2 = styled.div`
 
 const UserHome = ({type}) => {
 
-  const [videos, setVideos] = useState([])
+  const [videos, setVideos] = useState([]);
+  const [suc, setSuc] = useState();
+  const navigate = useNavigate();
+
+  // useEffect(() =>{
+  //   axios.get("/api/protect/user")
+  //   .then(res =>{
+  //     if(res.statusText === "OK"){
+  //       setSuc("success");
+  //     }else{
+  //         navigate("/");
+  //     }
+  //   }).catch(err =>{
+  //     console.log(err)
+  //   })
+  // })
 
   useEffect(()=>{
     const fetchVideos = async () =>{
@@ -37,11 +53,14 @@ const UserHome = ({type}) => {
           "Content-Type" : "application/json"},
           withCredentials: true
        }
-      const res = await axios.get(`https://creativebackend.onrender.com/api/videos/${type}`,config)
+      const res = await axios.get(`/api/videos/${type}`,config)
       setVideos(res.data)
     }
     fetchVideos()
   },[type])
+
+
+
   
 
   return (
@@ -54,7 +73,7 @@ const UserHome = ({type}) => {
     <Wrapper>
     <Container2>
     {videos.map((video) => (
-         <Card  key={video._id} video={video}/>
+         <UserCard  key={video._id} video={video}/>
       ))}
         
     </Container2>

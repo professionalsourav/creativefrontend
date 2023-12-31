@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux';
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import Upload from './Upload';
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { UserAuth } from '../context/AuthContext';
+
+
 
 const Container = styled.div`
 position: sticky;

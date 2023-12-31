@@ -21,6 +21,8 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import UserNavbar from '../../components/user/UserNavbar';
 import Vcnavbar from '../../components/creator/Vcnavbar';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 display: flex;
@@ -146,6 +148,7 @@ const VideoFrame = styled.video`
 const Video = () => {
 
 
+
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
   const dispatch = useDispatch();
@@ -153,8 +156,10 @@ const Video = () => {
 
 
  const [channel, setChannel] = useState({});
+ const navigate = useNavigate();
 
-
+//console.log(currentVideo);
+//console.log(currentUser);
 
 useEffect(()=>{
   const fetchData = async () =>{
@@ -164,8 +169,8 @@ useEffect(()=>{
           "Content-Type" : "application/json"},
           withCredentials: true
        }
-      const videoRes = await axios.get(`https://night-rua3.onrender.com/api/videos/find/${path}`,configf)
-      const channelRes = await axios.get(`https://night-rua3.onrender.com/api/users/find/${videoRes.data.userId}`,configf)
+      const videoRes = await axios.get(`/api/videos/find/${path}`,configf)
+      const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`,configf)
       setChannel(channelRes.data)
       dispatch(fetchSuccess(videoRes.data));
       //setVideo(videoRes.data)
@@ -183,7 +188,7 @@ const handleLike = async () => {
       "Content-Type" : "application/json"},
       withCredentials: true
    }
-  await axios.put(`https://night-rua3.onrender.com/api/users/like/${currentVideo._id}`,{
+  await axios.put(`/api/users/like/${currentVideo._id}`,{
     Headers: {
       "Content-Type" : "application/json"},
       withCredentials: true
@@ -196,7 +201,7 @@ const handleDislike = async () => {
       "Content-Type" : "application/json"},
       withCredentials: true
    }
-  await axios.put(`https://night-rua3.onrender.com/api/users/unlike/${currentVideo._id}`,{
+  await axios.put(`/api/users/unlike/${currentVideo._id}`,{
     Headers: {
       "Content-Type" : "application/json"},
       withCredentials: true
@@ -214,11 +219,28 @@ const handleSub = async () => {
       withCredentials: true
    }
   currentUser.subscribedUsers.includes(channel._id)
-    ? await axios.put(`https://night-rua3.onrender.com/api/users/unsub/${channel._id}`,configf)
-    : await axios.put(`https://night-rua3.onrender.com/api/users/sub/${channel._id}`,configf);
+    ? await axios.put(`/api/users/unsub/${channel._id}`,configf)
+    : await axios.put(`/api/users/sub/${channel._id}`,configf);
   dispatch(subscription(channel._id));
 };
 
+
+
+
+const handleDelete = () => {
+  axios
+    .delete(`/api/videos/${currentVideo._id}`) // Replace with your actual API endpoint
+    .then((response) => {
+      // Handle the successful response here, e.g., display a success message
+      console.log('Video deleted successfully:', response.data);
+      navigate(`/user/delete`)
+    })
+    .catch((error) => {
+      // Handle any errors that occur during the request, e.g., display an error message
+      console.error('Error deleting video:', error);
+      alert("you can not delete other video")
+    });
+};
 
 
 
@@ -235,15 +257,7 @@ const handleSub = async () => {
           <VideoContainer>
             <Content>
             <VideoWrapper>
-         {/* <iframe
-         width="100%"
-         height="720"
-         src='https://firebasestorage.googleapis.com/v0/b/video-b95b6.appspot.com/o/1693565520942videoBg.mp4?alt=media&token=542704b7-da58-44c1-9bb1-2edde24b8650'
-         title='jg'
-         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-         allowFullScreen
-         >
-         </iframe> */}
+        
          <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
 
@@ -267,8 +281,8 @@ const handleSub = async () => {
               )}{" "}
               Dislike
             </Button>
-            <Button>
-              <ReplyOutlinedIcon /> Share
+            <Button onClick={handleDelete}>
+              <DeleteForeverOutlinedIcon />delete
             </Button>
             <Button>
               <AddTaskOutlinedIcon /> Save

@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { loginFailure, logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 const Container = styled.div`
   flex: 1;
@@ -146,6 +148,26 @@ const Menu = () => {
           <Item>
             <CollectionsBookmarkIcon />
             subject gallary
+          </Item>
+        </Link>
+
+        <Link
+          to={`/user/profile/${currentUser._id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <Item>
+            <ManageAccountsIcon />
+            Profile update
+          </Item>
+        </Link>
+
+        <Link
+          to={`/user/delete/${currentUser._id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <Item>
+            <PersonRemoveIcon />
+            delete User
           </Item>
         </Link>
 

@@ -146,7 +146,7 @@ const Upload = ({ setOpen }) => {
           "Content-Type" : "application/json"},
           withCredentials: true
        }
-      const res = await axios.post("https://night-rua3.onrender.com/api/videos", {...inputs, tags},configf)
+      const res = await axios.post("/api/videos", {...inputs, tags},configf)
       setOpen(false)
       res.status===200 && navigate(`/user/sucess`)
     }

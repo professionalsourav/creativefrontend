@@ -4,6 +4,7 @@ import Card from '../../components/creator/Card';
 import axios from "axios"
 import Menu from '../../components/creator/Menu';
 import Navbar from '../../components/creator/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -34,6 +35,8 @@ const Home = ({type}) => {
 
 
   const [videos, setVideos] = useState([])
+  const [suc, setSuc] = useState();
+  const navigate = useNavigate();
 
 useEffect(()=>{
   const fetchVideos = async () =>{
@@ -42,11 +45,23 @@ useEffect(()=>{
         "Content-Type" : "application/json"},
         withCredentials: true
      }
-    const res = await axios.get(`https://night-rua3.onrender.com/api/videos/${type}`,configf)
+    const res = await axios.get(`/api/videos/${type}`,configf)
     setVideos(res.data)
   }
   fetchVideos()
 },[type])
+
+useEffect(() =>{
+axios.get("/api/protect/creator")
+.then((res) =>
+{if(res.statusText === "OK"){
+  setSuc("success")
+}else{
+  navigate("/")
+}}).catch(err =>{
+  console.log(err);
+})
+},[])
 
 
   return (

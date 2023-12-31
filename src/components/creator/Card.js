@@ -78,7 +78,7 @@ const Card = ({ type, video }) => {
           "Content-Type" : "application/json"},
           withCredentials: true
        }
-      const res = await axios.get(`https://night-rua3.onrender.com/api/users/find/${video.userId}`, configf);
+      const res = await axios.get(`/api/users/find/${video.userId}`, configf);
       setChannel(res.data);
     };
     fetchChannel();

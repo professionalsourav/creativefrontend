@@ -1,6 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import {format} from "timeago.js";
 import styled from "styled-components"
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 const Container = styled.div`
 display: flex;
@@ -41,6 +46,11 @@ font-size: 14px;
 const Comment = ({comment}) => {
 
   const [channel, setChannel] = useState({});
+  const { currentUser } = useSelector((state) => state.user);
+
+
+
+
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -49,22 +59,46 @@ const Comment = ({comment}) => {
           "Content-Type" : "application/json"},
           withCredentials: true
        }
-      const res = await axios.get(`https://night-rua3.onrender.com/api/users/find/${comment.userId}`,configf);
+      const res = await axios.get(`/api/users/find/${comment.userId}`,configf);
+    
       setChannel(res.data)
     };
     fetchComment();
   }, [comment.userId]);
+
+  const handleDeleteComment = (e) =>{
+    e.preventDefault();
+    //alert("hii")
+    
+    // axios.get
+   
+    
+    axios.delete(`/api/comments/${comment._id}`).then((res)=>{
+          
+    
+          console.log(`sucessfully deleted : ${res.data}` )
+    
+    }).catch((err)=>{
+      console.log(`error : ${err}`)
+    })
+  
+  }
 
   return (
     <Container>
          <Avatar src={channel.img} />
     <Details>
         <Name>
-        {channel.name} <Date>1 day ago</Date>
+        {channel.name} <Date> {format(comment.createdAt)}</Date>
         </Name>
         <Text>
-        {comment.desc}
+        {comment.desc} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
+        <button onClick={handleDeleteComment}>
+        < MoreVertOutlinedIcon style={{fontSize:'small'}}/>
+        </button>
+        
         </Text>
+       
     </Details>
     </Container>
   )

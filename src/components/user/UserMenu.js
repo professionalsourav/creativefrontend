@@ -9,6 +9,9 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import ForumIcon from "@mui/icons-material/Forum";
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+
 
 const Container = styled.div`
   flex: 1;
@@ -141,6 +144,26 @@ const UserMenu = () => {
           <Item>
             <CollectionsBookmarkIcon />
             subject gallary
+          </Item>
+        </Link>
+
+        <Link
+          to={`/userhome/profile/${currentUser._id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <Item>
+            <ManageAccountsIcon />
+            Profile update
+          </Item>
+        </Link>
+
+        <Link
+          to={`/userhome/delete/${currentUser._id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <Item>
+            <PersonRemoveIcon />
+            delete User
           </Item>
         </Link>
 

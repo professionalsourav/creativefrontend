@@ -4,6 +4,7 @@ import Comment from './Comment';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { loginSuccess } from '../../redux/userSlice';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 
 const Container = styled.div`
 
@@ -30,19 +31,20 @@ width: 100%;
 `;
 
 const Comments = ({videoId}) => {
+ // console.log(videoId)
 
   const { currentUser } = useSelector((state) => state.user);
 
   const [comments, setComments] = useState([]);
 
-  const [newComment, setNewComment] = useState('');
+  const [commentText, setCommentText] = useState('');
   const dispatch = useDispatch();
 
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`https://night-rua3.onrender.com/api/comments/${videoId}`);
+        const res = await axios.get(`/api/comments/${videoId}`);
         setComments(res.data);
       } catch (err) {}
     };
@@ -52,13 +54,29 @@ const Comments = ({videoId}) => {
 
 
   
-  // const handleSubmitComment = async (e)=>{
-   
-  //   e.preventDefault();
-   
-  //   const res = await axios.post("http://localhost:8000/api/comments", {setNewComment,videoId})
-   
-  // }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const commentData = {
+      desc: commentText,
+      videoId,
+
+    };
+
+    axios
+      .post('/api/comments', commentData) // Replace with your actual API endpoint
+      .then((response) => {
+       setCommentText("")
+      
+
+      
+       // console.log('Comment sent successfully:', response.data);
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request, e.g., display an error message
+        console.error('Error sending comment:', error);
+      });
+  };
     
 
   return (
@@ -66,9 +84,15 @@ const Comments = ({videoId}) => {
 
         <NewComment>
             <Avatar src={currentUser.img}  />
-            <Input  placeholder='Add a comment...' onChange={(e) =>setNewComment(e.target.value)}/>
-            <button >send</button>
+            <Input  placeholder='Add a comment...'  value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}/>
+
+            <button onClick={handleSubmit}><SendOutlinedIcon/></button>
         </NewComment>
+
+
+
+
         {comments.map(comment=>(
         <Comment key={comment._id} comment={comment}/>
       ))}

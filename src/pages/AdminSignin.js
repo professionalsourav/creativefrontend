@@ -109,9 +109,9 @@ const AdminSignin = () => {
               withCredentials: true
            }
 
-          const res = await axios.post(`https://night-rua3.onrender.com/api/v1/auth/signin`,{name,password}, config);
+          const res = await axios.post(`/api/v1/auth/signin`,{name,password}, config);
           dispatch(loginSuccess(res.data));
-          navigate("/adminhome")
+          navigate("/admin")
         } catch (err) {
           dispatch(loginFailure());
         }
@@ -129,16 +129,16 @@ const AdminSignin = () => {
         signInWithPopup(auth, provider)
           .then((result) => {
             axios
-              .post("https://night-rua3.onrender.com/api/v1/auth/google", {
+              .post("/api/v1/auth/google", {
                 name: result.user.displayName,
                 email: result.user.email,
                 img: result.user.photoURL,
                
               },config)
               .then((res) => {
-                console.log(res)
+                
                 dispatch(loginSuccess(res.data));
-                navigate("/adminhome")
+                navigate("/admin")
               });
             
           })
@@ -156,7 +156,7 @@ const AdminSignin = () => {
               "Content-Type" : "application/json"},
               withCredentials: true
            }
-            const res = await axios.post(`https://night-rua3.onrender.com/api/v1/auth/signup`,{name,email,password},config);
+            const res = await axios.post(`/api/v1/auth/signup`,{name,email,password},config);
            
               
                     navigate("/");

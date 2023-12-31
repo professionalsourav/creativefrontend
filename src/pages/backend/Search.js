@@ -36,7 +36,7 @@ const Search = () => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`https://night-rua3.onrender.com/api/videos/search${query}`);
+      const res = await axios.get(`/api/videos/search${query}`);
       setVideos(res.data);
     };
     fetchVideos();

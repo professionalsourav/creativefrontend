@@ -69,7 +69,6 @@ const Avatar = styled.img`
 const UserNavbar = () => {
 
     const navigate = useNavigate()
-    const [open, setOpen] = useState(false);
     const [q, setQ] = useState("");
     const { currentUser } = useSelector((state) => state.user);
 
@@ -84,7 +83,7 @@ const UserNavbar = () => {
               placeholder="Search"
               onChange={(e) => setQ(e.target.value)}
             />
-            <SearchOutlinedIcon onClick={()=>navigate(`/search?q=${q}`)}/>
+            <SearchOutlinedIcon onClick={()=>navigate(`/usersearch?q=${q}`)}/>
     </Search>
       {currentUser ? (<User>
        
